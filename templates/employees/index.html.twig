@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employees index{% endblock %}
+
+{% block body %}
+    <h1>Add Employees</h1>
+
+    {{ include('employees/_form.html.twig') }}
+
+    <h1>Employees list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Position</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+            <tr>
+                <td>{{ employee.firstname }}</td>
+                <td>{{ employee.lastname }}</td>
+                <td>{{ employee.position }}</td>
+                <td>
+                    <a href="{{ path('app_employees_delete', {'id': employee.id}) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    <a href="{{ path('app_employees_edit', {'id': employee.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

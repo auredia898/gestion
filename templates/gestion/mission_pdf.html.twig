@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture de la Mission</title>
+</head>
+<body>
+    <h1>Facture de la Mission</h1>
+    
+    <!-- Insérez ici les détails de la mission à partir de la variable missionData -->
+    <p>Date de la Mission: {{ missionData.mission.startDate|date('d/m/Y') }} au {{ missionData.mission.endDate|date('d/m/Y') }}</p>
+    <p>Objectif de la Mission: {{ missionData.mission.objective }}</p>
+    
+    <!-- Boucle pour afficher les détails de chaque employé -->
+    <h2>Détails des Employés</h2>
+    <ul>
+        {% for employee in missionData.employees %}
+            <li>{{ employee.employee.firstname }} {{ employee.employee.lastname }} - {{ employee.workDays|date('d/m/Y') }} ({{ employee.period }})</li>
+            <p>Taux Horaire: {{ employee.employee.position.hourlyRate }}</p>
+            <p>Nombre d'heures: {{ employee.numberHours }}</p>
+            <p>Montant: {{ employee.employee.position.hourlyRate * employee.numberHours }}</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

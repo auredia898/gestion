@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hoursworked index{% endblock %}
+
+{% block body %}
+    <h1>Add Hoursworked</h1>
+
+    {{ include('hoursworked/_form.html.twig') }}
+
+    <h1>Hoursworked list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Mission</th>
+                <th>Period</th>
+                <th>NumberHours</th>
+                <th>WorkDays</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hoursworked in hoursworkeds %}
+            <tr>
+                <td>{{ hoursworked.employee }}</td>
+                <td>{{ hoursworked.mission }}</td>
+                <td>{{ hoursworked.period }}</td>
+                <td>{{ hoursworked.numberHours }} H</td>
+                <td>{{ hoursworked.workDays ? hoursworked.workDays|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_hoursworked_delete', {'id': hoursworked.id}) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    <a href="{{ path('app_hoursworked_edit', {'id': hoursworked.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

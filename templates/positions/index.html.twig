@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Positions index{% endblock %}
+
+{% block body %}
+
+
+    <h1> Add new position</h1>
+
+    {{ include('positions/_form.html.twig', {'position': null, 'form': form}) }}
+
+    <h1>Positions list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>HourlyRate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for position in positions %}
+            <tr>
+                <td>{{ position.type }}</td>
+                <td>{{ position.hourlyRate }}</td>
+                <td>
+                    <a href="{{ path('app_positions_delete', {'id': position.id}) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    <a href="{{ path('app_positions_edit', {'id': position.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

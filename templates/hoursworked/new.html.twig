@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Hoursworked{% endblock %}
+
+{% block body %}
+    <h1>Create new Hoursworked</h1>
+
+    {{ include('hoursworked/_form.html.twig') }}
+
+    <a href="{{ path('app_hoursworked_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   <h2>SUMMARY TABLE</h2>
+    <table border="1">
+        <tr>
+            <th>Imprimer la facture</th>
+            <th>Date de la Mission</th>
+            <th>Objectif de la Mission</th>
+            <th>Employé</th>
+            <th>Jours et Heures travaillés</th>
+            <th>Taux Horaire</th>
+            <th>Nombre d'heures</th>
+            <th>Montant</th>
+        </tr>
+
+        {% for missionData in missionsData %}
+            {% set mission = missionData.mission %}
+            {% set employees = missionData.employees %}
+            <tr>
+                <td rowspan="{{ employees|length }}">
+                <button class="printButton" onClick="window.location.href='{{ path('mission_pdf', {'missionId': mission.id}) }}'">Imprimer la facture de la mission</button>
+                    {# <button class="printButton" onClick="impress('{{ mission.id }}')">Imprimer la facture de la mission</button> #}
+                </td>
+                <td rowspan="{{ employees|length }}">{{ mission.startDate|date('d/m/Y') }} au {{ mission.endDate|date('d/m/Y') }}</td>
+                <td rowspan="{{ employees|length }}">{{ mission.objective }}</td>
+                
+                {% for hoursWorked in employees %}
+                    <td>{{ hoursWorked.employee.firstname }} {{ hoursWorked.employee.lastname }}</td>
+                    <td>{{ hoursWorked.workDays|date('d/m/Y') }} ({{ hoursWorked.period }})</td>
+                    <td>{{ hoursWorked.employee.position.hourlyRate }}</td>
+                    <td>{{ hoursWorked.numberHours }}</td>
+                    <td>{{ hoursWorked.employee.position.hourlyRate * hoursWorked.numberHours }}</td>
+                </tr>
+                {% if not loop.last %}
+                    <tr>
+                {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
+    {% block javascripts %}
+        {# <script>
+            function impress(missionId) {
+                console.log("IMPRESS");
+                console.log(missionId);
+                window.location.href = '{{ path('mission_pdf', {'missionId': missionId}) }}';
+            }
+
+            function impressEmployeeInvoice(employeeId, missionId) {
+                console.log("Impression de la facture de l'employé pour l'ID de l'employé : " + employeeId + " et l'ID de la mission : " + missionId);
+                window.location.href = '{{ path('employee_pdf') }}?employeeId=' + employeeId + '&missionId=' + missionId;
+            }
+        </script> #}
+    {% endblock %}

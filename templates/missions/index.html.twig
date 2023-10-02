@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Missions index{% endblock %}
+
+{% block body %}
+
+     <h1>Add Missions</h1>
+
+    {{ include('missions/_form.html.twig') }}
+
+    <h1>Missions list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Objective</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mission in missions %}
+            <tr>
+                <td>{{ mission.objective }}</td>
+                <td>{{ mission.startDate ? mission.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ mission.endDate ? mission.endDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_missions_delete', {'id': mission.id}) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    <a href="{{ path('app_missions_edit', {'id': mission.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
