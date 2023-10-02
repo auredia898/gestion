@@ -20,13 +20,12 @@
             <tr>
                 <td rowspan="{{ employees|length }}">
                 <button class="printButton" onClick="window.location.href='{{ path('mission_pdf', {'missionId': mission.id}) }}'">Imprimer la facture de la mission</button>
-                    {# <button class="printButton" onClick="impress('{{ mission.id }}')">Imprimer la facture de la mission</button> #}
                 </td>
                 <td rowspan="{{ employees|length }}">{{ mission.startDate|date('d/m/Y') }} au {{ mission.endDate|date('d/m/Y') }}</td>
                 <td rowspan="{{ employees|length }}">{{ mission.objective }}</td>
                 
                 {% for hoursWorked in employees %}
-                    <td>{{ hoursWorked.employee.firstname }} {{ hoursWorked.employee.lastname }}</td>
+                    <td>{{ hoursWorked.employee.firstname }} {{ hoursWorked.employee.lastname }} <button class="printButton" onClick="window.location.href='{{ path('generate_employee_pdf', {'employeeId': hoursWorked.employee.id, 'missionId': mission.id}) }}'">Facture employé</button> </td>
                     <td>{{ hoursWorked.workDays|date('d/m/Y') }} ({{ hoursWorked.period }})</td>
                     <td>{{ hoursWorked.employee.position.hourlyRate }}</td>
                     <td>{{ hoursWorked.numberHours }}</td>

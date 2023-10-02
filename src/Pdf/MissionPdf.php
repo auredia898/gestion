@@ -1,5 +1,5 @@
 <?php
-namespace App\PDF;
+namespace App\Pdf;
 
 use FPDF;
 use Knp\Snappy\Pdf as KnpSnappyPdf; // Utilisez un alias pour le service Knplabs/KnpSnappyBundle

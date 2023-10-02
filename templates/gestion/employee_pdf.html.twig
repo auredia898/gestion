@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture de l'Employé</title>
+</head>
+<body>
+    <h1>Facture de l'Employé</h1>
+    
+    <p><strong>Nom de l'employé :</strong> {{ employee.firstname }} {{ employee.lastname }}</p>
+    <p><strong>Mission : </strong>{{ mission.objective }}</p>
+    
+    <!-- Boucle pour afficher les détails des heures travaillées pour la mission en cours -->
+    <h2>Détails des Heures Travaillées</h2>
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Taux Horaire</th>
+            <th>Nombre d'heures</th>
+            <th>Montant</th>
+        </tr>
+        {% for hoursWorked in employee.hoursworkeds %}
+            {% if hoursWorked.mission == mission %}
+                <tr>
+                    <td>{{ hoursWorked.workDays|date('d/m/Y') }}, de {{ hoursWorked.period}}</td>
+                    <td>{{ hoursWorked.employee.position.hourlyRate }}</td>
+                    <td>{{ hoursWorked.numberHours }}</td>
+                    <td>{{ hoursWorked.employee.position.hourlyRate * hoursWorked.numberHours }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    
+    <h2>Montant total : {{ totalAmount }}</h2>
+</body>
+</html>

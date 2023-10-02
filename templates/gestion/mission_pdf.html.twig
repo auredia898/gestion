@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{# <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,4 +22,60 @@
         {% endfor %}
     </ul>
 </body>
+</html> #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mission PDF</title>
+</head>
+<body>
+    <h1>Facture de la mission</h1>
+    <p><strong>Date de la mission: </strong> Du {{ mission.startDate|date('d/m/Y') }} au {{ mission.endDate|date('d/m/Y') }}</p>
+    <p><strong>Objectif de la mission:</strong> {{ mission.objective }}</p>
+    
+    <!-- Tableau des employés et montants -->
+    <h2>Détails des Employés</h2>
+<table border="1">
+    <tr>
+        <th>Employé</th>
+        <th>Date</th>
+        <th>Taux Horaire</th>
+        <th>Nombre d'heures</th>
+        <th>Montant</th>
+    </tr>
+
+    {% set totalAmount = 0 %}
+    {% set employeeName = null %}
+
+    {% for hoursWorked in employees %}
+        {% if employeeName != hoursWorked.employee.firstname ~ ' ' ~ hoursWorked.employee.lastname %}
+            <tr>
+                <td>{{ hoursWorked.employee.firstname }} {{ hoursWorked.employee.lastname }}</td>
+                <td>{{ hoursWorked.workDays|date('d/m/Y') }}</td>
+                <td>{{ hoursWorked.employee.position.hourlyRate }}</td>
+                <td>{{ hoursWorked.numberHours }}</td>
+                <td>{{ hoursWorked.employee.position.hourlyRate * hoursWorked.numberHours }}</td>
+            </tr>
+            {% set totalAmount = totalAmount + (hoursWorked.employee.position.hourlyRate * hoursWorked.numberHours) %}
+        {% else %}
+            <tr>
+                <td></td>
+                <td>{{ hoursWorked.workDays|date('d/m/Y') }}</td>
+                <td>{{ hoursWorked.employee.position.hourlyRate }}</td>
+                <td>{{ hoursWorked.numberHours }}</td>
+                <td>{{ hoursWorked.employee.position.hourlyRate * hoursWorked.numberHours }}</td>
+            </tr>
+            {% set totalAmount = totalAmount + (hoursWorked.employee.position.hourlyRate * hoursWorked.numberHours) %}
+        {% endif %}
+        {% set employeeName = hoursWorked.employee.firstname ~ ' ' ~ hoursWorked.employee.lastname %}
+    {% endfor %}
+</table>
+
+
+    <!-- Montant total -->
+    <h2>Montant total: {{ totalAmount }} F</h2>
+</body>
 </html>
+
